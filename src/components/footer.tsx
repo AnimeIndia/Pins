@@ -1,9 +1,3 @@
-import { ReactNode } from 'react';
-
-type IMainProps = {
-  meta: ReactNode;
-  children: ReactNode;
-};
 
 const Footer = () => (
   <div className="footer-header text-sm flex flex-wrap justify-start w-full lg:mx-0 mx-auto bg-gray-900 py-20 pl-40 pr-80">

@@ -1,19 +1,19 @@
 import useSWR from "swr";
 import Layout from "../layout/Masonry";
 
-const fetcher = (...args: any) => fetch(...args).then((res) => res.json())
+const fetcher = (url: any) => fetch(url).then((res) => res.json())
 
 
-function getPixivData() {
-  const imagesData = []
-  const {data, error}= useSWR('/api/pixiv/illusts/', fetcher);
+// function getPixivData() {
+//   const imagesData = []
+//   const {data, error}= useSWR('/api/pixiv/illusts/', fetcher);
 
-  if (error) return 'an error occurred'
-  if(!data) return 'loading'
-  imagesData.push(data.imagesData);
+//   if (error) return 'an error occurred'
+//   if(!data) return 'loading'
+//   imagesData.push(data.imagesData);
 
-  return imagesData;
-}
+//   return imagesData;
+// }
 
 
 export default function rank() {

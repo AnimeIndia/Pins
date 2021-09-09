@@ -1,13 +1,8 @@
-import { ReactNode } from 'react';
 
-import Link from 'next/link';
-
-import { AppConfig } from '../utils/AppConfig';
-
-type IMainProps = {
-  meta: ReactNode;
-  children: ReactNode;
-};
+// type IMainProps = {
+//   meta: ReactNode;
+//   children: ReactNode;
+// };
 
 const Navbar = () => (
   <div className="navBar">
