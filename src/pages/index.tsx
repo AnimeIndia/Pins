@@ -2,15 +2,12 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { Meta } from '../layout/Meta';
 import { Main } from '../templates/Main';
 import { Header } from '../components/header';
-import { RANDOM } from '../utils/random';
+import RANDOM from '../utils/random';
 // import useSWR from 'swr';
 
 
 // const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 
-export type BgImageData = {
-  bgImageData: string
-}
 // async function getPixivData() {
 //   const imagesData = []
 //   const {data, error} = await axios.get('/api/pixiv/random').then(res => res.data);
@@ -23,7 +20,7 @@ export type BgImageData = {
 // }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const randomBgImageData = await RANDOM.call([]);
+  const randomBgImageData = await RANDOM.RANDOM.call([]);
   return {
     props: {
       randomBgImageData: randomBgImageData
