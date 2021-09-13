@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import PixivApi from 'pixiv-api-client';
+import { AppConfig } from '../../../utils/AppConfig';
 
 const pixiv = new PixivApi();
 
@@ -34,7 +35,7 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   const randomIllustID = illustIds.illusts[Math.floor((Math.random()*100000) % illustIds.illusts.length)]
   const randomIllustImageUrl = randomIllustID.image_urls.large;
 
-  const randomProxyIllustImageUrl = randomIllustImageUrl.replace('i.pximg.net', 'i.loli.best');
+  const randomProxyIllustImageUrl = randomIllustImageUrl.replace(AppConfig.pixivImagePrefix, AppConfig.reverseProxyPrefix);
 
   // for(let i = 0; i<illustIds.length; i++) {
   //   let illustId = illustIds[i];

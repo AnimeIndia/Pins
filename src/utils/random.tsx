@@ -1,4 +1,5 @@
 import PixivApi from 'pixiv-api-client';
+import { AppConfig } from './AppConfig';
 
 const pixiv = new PixivApi();
 
@@ -58,7 +59,7 @@ export async function getImageData () {
   const origImageUrl = randomIllustID.meta_single_page.original_image_url;
   const randomIllustImageUrl = origImageUrl || randomIllustID.image_urls.medium;
   // console.log(illustIds.illusts.length);
-  const randomProxyIllustImageUrl = randomIllustImageUrl.replace('i.pximg.net', 'i.loli.best');
+  const randomProxyIllustImageUrl = randomIllustImageUrl.replace(AppConfig.pixivImagePrefix, AppConfig.reverseProxyPrefix);
 
   return {
     randomIllustImageUrl: randomProxyIllustImageUrl

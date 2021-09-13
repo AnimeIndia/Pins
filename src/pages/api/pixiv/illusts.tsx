@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import PixivApi from 'pixiv-api-client';
+import { AppConfig } from '../../../utils/AppConfig';
 
 const pixiv = new PixivApi();
 
@@ -31,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day', offset: offset});
   var imagesData = []
-  for(let i = 0; i<Math.min(10, illustIds.illusts.length); i++) {
+  for(let i = 0; i<Math.min(15, illustIds.illusts.length); i++) {
     // let illustId = illustIds[i];
     let pixivData = illustIds.illusts[i];
     // console.log(pixivData);
@@ -47,8 +48,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       origImageUrl = imageUrl;
     //const imageData = await getImageData(imageUrl);
     // const imageData = imageUrl;
-    const proxyImageUrl = imageUrl.replace('i.pximg.net', 'i.loli.best');
-    // const imageData = imageUrl.replace('i.pximg.net', 'i.pixiv.cat');
+    const proxyImageUrl = imageUrl.replace(AppConfig.pixivImagePrefix, AppConfig.reverseProxyPrefix);
+    // const proxyImageUrl = imageUrl.replace('i.pximg.net', 'i.pixiv.cat');
 
     // console.log(proxyImageUrl);
     imagesData.push({

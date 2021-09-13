@@ -44,16 +44,20 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   // console.log(imagesData);
 
   const fetchMoreItems = async () => {
-    setOffset(offset + 10);
+    setOffset(offset + 15);
     const nextItems =  await axios.get('/api/pixiv/illusts?offset=' + offset);
-    const uniqueItemsData = Array.from(new Set(nextItems.data.imagesData));
-    const allUniqueItemsData = Array.from(new Set([...imagesData, ...uniqueItemsData]));
-    setImagesData(allUniqueItemsData);
+    const allItems = [...imagesData, ...nextItems.data.imagesData];
+    const allImageUrls = allItems.map(item => item.imageUrl);
+    const uniqueItems = allItems.filter(({imageUrl}, index) => !allImageUrls.includes(imageUrl, index + 1));
+    // const uniqueItemsData = Array.from(new Set(nextItems.data.imagesData));
+    // const allUniqueItemsData = Array.from(new Set([...imagesData, ...uniqueItemsData]));
+    setImagesData(uniqueItems);
+    console.log(uniqueItems.length);
     
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
     isItemLoaded: (index, items) => !!items[index]
-    // threshold: 12
+    // threshold: 2
   })
   const debouncedCallback = useDebounceCallback(maybeLoadMore, 300)
 

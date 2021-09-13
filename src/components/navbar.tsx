@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react';
-
+import Link from 'next/link';
 // type IMainProps = {
 //   meta: ReactNode;
 //   children: ReactNode;
@@ -24,16 +24,18 @@ async function randomizeBg(event: MouseEvent, wrapperSetRandomIllustImageUrl: an
 
 const Navbar = (wrapperSetRandomIllustImageUrl: any) => (
   <div className="navBar">
-      <div className="flex items-center flex-wrap justify-start w-full lg:mx-0 mx-auto">
-        <a href="/rank" className="transition bg-transparent px-10 py-3 rounded font-normal text-white text-left border-none">Pins</a>
-        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-white text-left border-none">News</a>
-        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-white text-left border-none">Clips</a>
+      <div className="flex items-center flex-wrap justify-start w-full lg:mx-0 mx-auto gap-x-2">
+        <Link href="/rank">
+          <a className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">Pins</a>
+        </Link>
+        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">News</a>
+        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">Clips</a>
 
-        <a href="/" className="transition flex-1 bg-transparent px-10 py-3 rounded font-normal text-white border-none text-right"
+        <a href="/" className="transition flex-1 bg-transparent px-10 py-3 rounded font-normal text-black border-none text-right"
           onClick={(event) => randomizeBg(event, wrapperSetRandomIllustImageUrl)}
         >
           Randomize</a>
-        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-white border-none text-right">Sign-In</a>
+        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-black border-none text-right">Sign-In</a>
 
       </div>
       </div>
