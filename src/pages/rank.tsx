@@ -56,8 +56,8 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
     
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
-    isItemLoaded: (index, items) => !!items[index]
-    // threshold: 2
+    isItemLoaded: (index, items) => !!items[index],
+    threshold: 18
   })
   const debouncedCallback = useDebounceCallback(maybeLoadMore, 300)
 
