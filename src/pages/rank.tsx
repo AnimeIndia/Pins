@@ -1,5 +1,5 @@
 import Layout from "../layout/Masonry";
-import { ImageCard } from '../components/imageCard';
+import { ImageCard } from '../components/card/imageCard';
 import { useState } from 'react';
 import { Masonry, useInfiniteLoader } from "masonic";
 import { useDebounceCallback } from '@react-hook/debounce'
