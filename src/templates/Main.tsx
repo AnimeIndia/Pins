@@ -1,8 +1,6 @@
 import { ReactNode } from 'react';
 
-import Link from 'next/link';
 
-import { AppConfig } from '../utils/AppConfig';
 import { Footer } from '../components/footer';
 
 type IMainProps = {

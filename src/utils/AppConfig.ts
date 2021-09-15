@@ -1,7 +1,9 @@
 export const AppConfig = {
-  site_name: 'Starter',
-  title: 'Nextjs Starter',
-  description: 'Starter code for your Nextjs Boilerplate with Tailwind CSS',
+  site_name: 'Pins.Moe',
+  title: 'Pins.Moe',
+  description: 'Pins.Moe',
   locale: 'en',
-  headerLine: 'Arts, News, Reviews & Much More'
+  headerLine: 'Arts, News, Reviews & Much More',
+  pixivImagePrefix: 'i.pximg.net',
+  reverseProxyPrefix: 'i.anipins.moe'
 };
