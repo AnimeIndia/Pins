@@ -27,8 +27,11 @@ const Navbar = (wrapperSetRandomIllustImageUrl: any) => (
       <div className="flex items-center flex-wrap justify-start w-full lg:mx-0 mx-auto gap-x-2">
         <Link href="/rank">
           <a className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">Pins</a>
-        </Link>
-        <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">News</a>
+      </Link>
+      <Link href="/news">
+          <a className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">News</a>
+      </Link>
+      
         <a href="#" className="transition bg-transparent px-10 py-3 rounded font-normal text-black text-left border-none">Clips</a>
 
         <a href="/" className="transition flex-1 bg-transparent px-10 py-3 rounded font-normal text-black border-none text-right"
