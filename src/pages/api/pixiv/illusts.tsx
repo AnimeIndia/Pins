@@ -55,7 +55,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     imagesData.push({
       imageUrl: proxyImageUrl,
       title: pixivData.title,
-      author: pixivData.user.name
+      author: pixivData.user.name,
+      width: pixivData.width,
+      height: pixivData.height,
     });
   }
 
