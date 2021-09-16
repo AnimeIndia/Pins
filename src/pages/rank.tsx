@@ -6,13 +6,38 @@ import { useDebounceCallback } from '@react-hook/debounce'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import axios from "axios";
 import { RANKING } from '../utils/ranking';
+import { supabase } from '../utils/supabaseClient'
 
 // const fetcher = (url: any) => fetch(url).then((res) => res.json())
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const options = {offset: 0}
+  const curDate = new Date();  
+  const date_offset = curDate.toISOString().slice(0,10) + '_' + options.offset;
+
+  let { data } = await supabase
+        .from('rank')
+        .select()
+        .eq('date_offset', date_offset)
+        .single();
+  
+  if (data) {
+      return  { 
+        props: {
+          data: data
+      }
+    }
+  }
+
   const rankingData =  await RANKING.call([], options);
     // const illustsApiRes = useSWR('/api/pixiv/illusts?offset=0');
+
+  data = await supabase
+      .from('rank')
+      .insert([
+          { date_offset: date_offset, imagesData: rankingData.imagesData }
+      ])
+      .single()
   return {
     props: {
       data: rankingData
@@ -26,22 +51,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 // }
 export default function rank({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [offset, setOffset] = useState(0);
-  // const {data, error} = useSWR('/api/pixiv/illusts?offset=' + offset, fetcher);
- 
+  // const [session, setSession] = useState(null);
 
-  // const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
-  //   index => `/api/pixiv/illusts?offset=10`,
-  //   fetcher
-  // // );
-  
-  // if (error) return 'an error occurred'
-  // if(!data) return 'loadingx'
   const [imagesData, setImagesData] =  useState(data.imagesData);
-  // const imagesData = data ? [].concat(...data) : [];
-  // const imageArrayMap = Array.from(data, x => Array.from(x.imagesData, y => y));
-  // const imagesData = [].concat(...imageArrayMap);
-  // // const imagesDataConcat = imagesData ? Array.from(data, ([name, value]) => ({ name, value })) : [];
-  // console.log(imagesData);
+
 
   const fetchMoreItems = async () => {
     setOffset(offset + 15);
@@ -57,21 +70,33 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
     isItemLoaded: (index, items) => !!items[index],
-    threshold: 18
+    minimumBatchSize: 15,
+    threshold: 15
   })
-  const debouncedCallback = useDebounceCallback(maybeLoadMore, 300)
+  const debouncedCallback = useDebounceCallback(maybeLoadMore, 700);
 
+  const Card = ({data:{imageUrl, title, author, width, height}, width: widthCell}
+      :{
+        data:{
+        imageUrl: string, title: string, author: string, width: number, height: number
+      },
+      width: number
+      }
+    ) => {
+    const heightImg: number = (widthCell/width)*height;
 
-  const Card = ( {data}: any ) => (
-    
-    <div className="rounded-xl overflow-hidden mb-4" key={data.imageUrl}>
+    return (
+    <div className="rounded-xl overflow-hidden" key={imageUrl}>
       <ImageCard 
-          imageUrl={data.imageUrl}
-          title={data.title}
-          author={data.author}
+          imageUrl={imageUrl}
+          title={title}
+          author={author} 
+          height={heightImg}
+          width={widthCell}
         />
     </div>
-  );
+    );
+};
   
 
   return(
@@ -93,7 +118,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
         items={imagesData}
         columnGutter={20}
         columnWidth={250}
-        overscanBy={1}
+        overscanBy={1.25}
         render={Card}
       />
     </div>

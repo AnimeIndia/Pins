@@ -35,7 +35,9 @@ export async function getRanking (options: any) {
     imagesData.push({
       imageUrl: proxyImageUrl,
       title: pixivData.title,
-      author: pixivData.user.name
+      author: pixivData.user.name,
+      width: pixivData.width,
+      height: pixivData.height,
     });
   }
   return {
