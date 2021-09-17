@@ -10,8 +10,11 @@ import { supabase } from '../utils/supabaseClient'
 
 // const fetcher = (url: any) => fetch(url).then((res) => res.json())
 
+const OFFSET_CONSTANT = 15;
+const OFFSET_START = 0;
+
 export const getServerSideProps: GetServerSideProps = async () => {
-  const options = {offset: 0}
+  const options = {offset: OFFSET_START}
   const curDate = new Date();  
   const date_offset = curDate.toISOString().slice(0,10) + '_' + options.offset;
 
@@ -20,8 +23,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
         .select()
         .eq('date_offset', date_offset)
         .single();
-  
-  if (data) {
+
+  if (data && data.imagesData.length > 0) {
       return  { 
         props: {
           data: data
@@ -57,7 +60,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
 
 
   const fetchMoreItems = async () => {
-    setOffset(offset + 15);
+    setOffset(offset + OFFSET_CONSTANT);
     const nextItems =  await axios.get('/api/pixiv/illusts?offset=' + offset);
     const allItems = [...imagesData, ...nextItems.data.imagesData];
     const allImageUrls = allItems.map(item => item.imageUrl);
@@ -70,9 +73,10 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
     isItemLoaded: (index, items) => !!items[index],
-    minimumBatchSize: 15,
-    threshold: 15
+    minimumBatchSize: 25,
+    threshold: 20
   })
+
   const debouncedCallback = useDebounceCallback(maybeLoadMore, 700);
 
   const Card = ({data:{imageUrl, title, author, width, height}, width: widthCell}
@@ -98,7 +102,6 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
     );
 };
   
-
   return(
     <Layout>
     <style jsx>{`
@@ -121,8 +124,13 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
         overscanBy={1.25}
         render={Card}
       />
-    </div>
     
+    <div className="flex items-center flex-wrap justify-around">
+      <img src="/tail-spin.svg" alt="" width="50">
+        </img>
+    </div>
+
+    </div>
 
     </Layout>
     
