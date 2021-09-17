@@ -3,6 +3,7 @@ import PixivApi from 'pixiv-api-client';
 import { AppConfig } from '../../../utils/AppConfig';
 
 const pixiv = new PixivApi();
+const DATE_OFFSET = 2;
 
 // type imagesData = {
 //   name: string
@@ -29,7 +30,7 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   // var imagesData = []
 
   const curDate = new Date();
-  curDate.setDate(curDate.getDate() - 1);
+  curDate.setDate(curDate.getDate() - DATE_OFFSET);
   
   const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day'});
   const randomIllustID = illustIds.illusts[Math.floor((Math.random()*100000) % illustIds.illusts.length)]

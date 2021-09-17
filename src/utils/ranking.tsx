@@ -1,14 +1,14 @@
 import PixivApi from 'pixiv-api-client';
 import { AppConfig } from './AppConfig';
 const pixiv = new PixivApi();
-
+const DATE_OFFSET = 2;
 
 export async function getRanking (options: any) {
   const REFRESH_TOKEN = "IojvOw76YzpH0d0HUZHzfdAOnQH84d9k-hS3vULmhf4";
   await pixiv.refreshAccessToken(REFRESH_TOKEN);
   // console.log(options);
   const curDate = new Date();
-  curDate.setDate(curDate.getDate() - 1);
+  curDate.setDate(curDate.getDate() - DATE_OFFSET);
   const offset = options.offset || 0;
 
   const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day', offset: offset});
