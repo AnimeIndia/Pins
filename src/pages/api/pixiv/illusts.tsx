@@ -3,7 +3,7 @@ import PixivApi from 'pixiv-api-client';
 import { AppConfig } from '../../../utils/AppConfig';
 
 const pixiv = new PixivApi();
-
+const DATE_OFFSET = 2;
 // type imagesData = {
 //   name: string
 // }
@@ -27,14 +27,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // 88653135, 88287478, 88302957, 91929350, 88653135, 88287478, 88302957
   // const word = 'ラブライブ';
   const curDate = new Date();
-  curDate.setDate(curDate.getDate() - 1);
+  curDate.setDate(curDate.getDate() - DATE_OFFSET);
   const offset = req.query.offset || 0;
-
+  
   const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day', offset: offset});
+  // const illustIds = await pixiv.illustRelated(91953835);
   var imagesData = []
+  
   for(let i = 0; i<Math.min(15, illustIds.illusts.length); i++) {
     // let illustId = illustIds[i];
     let pixivData = illustIds.illusts[i];
+    if(!pixivData)
+      continue;
     // console.log(pixivData);
     const selectedImage = pixivData.image_urls;
     // const selectedImage = images[Math.floor(Math.random() * images.length)];
@@ -60,7 +64,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       height: pixivData.height,
     });
   }
-
   res.status(200).json({imagesData: imagesData})
 }
 

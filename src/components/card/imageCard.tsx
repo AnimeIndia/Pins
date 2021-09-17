@@ -33,7 +33,7 @@ const ImageCard = (props: ImageProps) => {
   <div className="cursor-pointer bg-gray-600" style={{height: props.height}} onClick={() => window.open(props.imageUrl, "_blank")}>
     <Image className="rounded" 
       src={props.imageUrl} 
-      alt="Picture" 
+      alt="" 
       // layout="responsive"
       // quality="100"
       loading="lazy"
