@@ -74,7 +74,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 export default function rank({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const mode = useRecoilValue(pixivModeState);
   const [offsety, setOffsety] = useRecoilState(pixivOffsetState);
-  const [offsetx, setOffsetx] = useState(0);
+  // const [offsetx, setOffsetx] = useState(0);
+
   const pixivDate = useRecoilValue(pixivDateState);
 
   const [imagesData, setImagesData] =  useState(data.imagesData);
@@ -85,7 +86,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
       setIsInitialRun(false);
     } else {
       setImagesData([]);
-      setOffsetx(-15);
+      // setOffsetx(-15);
       setOffsety(-15);
       fetchMoreItems();
     }
@@ -93,12 +94,12 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   }, [mode, pixivDate]);
 
   const fetchMoreItems = async () => {
-    setOffsetx((offsetx) => (offsetx + OFFSET_CONSTANT));
+    // setOffsetx((offsetx) => (offsetx + OFFSET_CONSTANT));
     setOffsety((offsety) => (offsety + OFFSET_CONSTANT));
     const nextItems =  await axios.get('/api/pixiv/illusts?offset=' + offsety + '&mode=' + mode + "&date=" + pixivDate);
 
     setImagesData((prevData: any) => {
-      if (offsetx <= 0)
+      if (offsety <= 0)
         return nextItems.data.imagesData;
       var allItems = [...prevData, ...nextItems.data.imagesData];
       const allImageUrls = allItems.map(item => item.imageUrl);
@@ -150,7 +151,7 @@ const {scrollTop, isScrolling} = useScroller(offset)
 const depArray = [mode, pixivDate];
 const positioner = usePositioner(
   { width, columnGutter: 20, columnWidth: 250 },
-  imagesData.length>0?depArray:[imagesData.length, offsety]
+  imagesData.length>0?depArray:[imagesData, offsety]
 );
 const resizeObserver = useResizeObserver(positioner);
 
