@@ -35,6 +35,7 @@ const MODE_DEFAULT = 'day'
 export const getServerSideProps: GetServerSideProps = async () => {
   // const mode = useRecoilValue(pixivModeState);
   const options = {offset: OFFSET_START, mode: MODE_DEFAULT}
+
   const curDate = new Date();  
   const date_offset = curDate.toISOString().slice(0,10) + '_' + options.offset;
 
@@ -104,6 +105,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
       const uniqueItems = allItems.filter(({imageUrl}, index) => !allImageUrls.includes(imageUrl, index + 1));
       return uniqueItems;
     });
+
     
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
@@ -113,6 +115,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   })
 
   const debouncedCallback = useDebounceCallback(maybeLoadMore, 300);
+
 
   const Card = ({data:{imageUrl, title, author, width, height}, width: widthCell}
       :{
@@ -206,6 +209,7 @@ return(
             </img>
         </div>
         </div>
+
 
       </div>
     </Main>
