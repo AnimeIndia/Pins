@@ -32,7 +32,6 @@ const Index = ({randomBgImageData}: InferGetServerSidePropsType<typeof getServer
   // const router = useRouter();
 
   const bgImageUrl: string = randomBgImageData.randomIllustImageUrl;
-
   return (
     
     <Main

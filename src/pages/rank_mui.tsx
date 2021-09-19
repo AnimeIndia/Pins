@@ -6,6 +6,9 @@ import axios from "axios";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import useSWRInfinite from 'swr/infinite';
+import React, { useEffect } from "react";
+import { useInView } from 'react-intersection-observer';
+
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
@@ -56,32 +59,29 @@ export default function rank() {
   // const [session, setSession] = useState(null);
 
   // const [imagesData, setImagesData] =  useState(data.imagesData);
+  const [inViewRef, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  useEffect(() => {
+    if (inView) {
+      // Fire a tracking event to your tracking service of choice.
+      setSize(size+1);
+      console.log(size, "x");
+
+    }
+  }, [inView]);
 
 
-  // const fetchMoreItems = async () => {
-  //   setOffset(offset + OFFSET_CONSTANT);
-  //   const nextItems =  await axios.get('/api/pixiv/illusts?offset=' + offset);
-  //   const allItems = [...imagesData, ...nextItems.data.imagesData];
-  //   const allImageUrls = allItems.map(item => item.imageUrl);
-  //   const uniqueItems = allItems.filter(({imageUrl}, index) => !allImageUrls.includes(imageUrl, index + 1));
-  //   // const uniqueItemsData = Array.from(new Set(nextItems.data.imagesData));
-  //   // const allUniqueItemsData = Array.from(new Set([...imagesData, ...uniqueItemsData]));
-  //   setImagesData(uniqueItems);
-  //   console.log(uniqueItems.length);
-    
-  // }
-  // const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
-  //   isItemLoaded: (index, items) => !!items[index],
-  //   minimumBatchSize: 20,
-  //   threshold: 20
-  // })
-
-//   const debouncedCallback = useDebounceCallback(maybeLoadMore, 700);
-
-const Card = (imData: any) => {
+const Card = ({imData}:{imData: any}) => {
     const widthCell = 335;
-    const data = imData.imData;
+    const data = imData;
     const heightImg: number = (widthCell/data.width)*data.height;
+    // if(index%10 === 0) {
+    //     setSize(size+1);
+    //     console.log(size, "x");
+    //   }
+
     return (
     <div className="rounded-xl overflow-hidden" key={data.imageUrl}>
       <ImageCard 
@@ -107,6 +107,8 @@ const { data, size, setSize } = useSWRInfinite<any>(
 // console.log(data);
 // console.log(error);
 // console.log(size);
+// console.log(size, "y");
+
 
 if(!data)
   return <p> Loading</p>
@@ -114,9 +116,11 @@ if(!data)
 // console.log(data);
 let itemData: Array<Object> = [];
 for(let i=0; i<data.length; i++) {
-  itemData = itemData.concat(data[i].imagesData);
+  itemData = [...itemData, ...data[i].imagesData];
 }
-console.log(itemData);
+function handleRef(node: HTMLElement | null) {
+  inViewRef(node);
+}
 
   return(
     <Layout>
@@ -133,14 +137,17 @@ console.log(itemData);
     `}</style>
     <div className="px-60 py-20 w-full items-center">
     <ImageList variant="masonry" cols={4} gap={4}>
-        {itemData.map((item:any, index) => (
+        {itemData.map((item:any, index: number) => (
+          
           <ImageListItem key={index}>
-            <div className="rounded-xl overflow-hidden" key={item.imageUrl}> 
+            <div className="rounded-xl overflow-hidden" key={item.imageUrl} ref={index%7 === 0? handleRef : null}> 
+
                 <Card 
                   imData={item}
                 />
             </div>
-            {/* <ImageListItemBar position="below" title={item.author} />  */}
+            {/* <ImageListItemBar position="below" title={index} />  */}
+
           </ImageListItem>
         ))}
       </ImageList>
