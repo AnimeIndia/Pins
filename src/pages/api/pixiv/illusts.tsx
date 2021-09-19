@@ -28,9 +28,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // const word = 'ラブライブ';
   const curDate = new Date();
   curDate.setDate(curDate.getDate() - DATE_OFFSET);
+  // console.log(req.query);
   const offset = req.query.offset || 0;
-  
-  const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day', offset: offset});
+  const mode = req.query.mode || 'day';
+  var date = curDate;
+  try {
+    if(req.query.date)
+     date = new Date(req.query.date.toString()) ;
+  } 
+  catch(e) {date = curDate;} 
+  finally {if (date.getDate() > curDate.getDate()) date = curDate;}
+  const illustIds = await pixiv.illustRanking({date: date.toISOString().slice(0,10), mode: mode, offset: offset});
   // const illustIds = await pixiv.illustRelated(91953835);
   var imagesData = []
   

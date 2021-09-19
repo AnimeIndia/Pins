@@ -10,8 +10,9 @@ export async function getRanking (options: any) {
   const curDate = new Date();
   curDate.setDate(curDate.getDate() - DATE_OFFSET);
   const offset = options.offset || 0;
+  const mode = options.mode || 'day';
 
-  const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day', offset: offset});
+  const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: mode, offset: offset});
   var imagesData = []
   for(let i = 0; i<Math.min(15, illustIds.illusts.length); i++) {
     let pixivData = illustIds.illusts[i];
