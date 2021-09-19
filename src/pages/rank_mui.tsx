@@ -9,6 +9,7 @@ import useSWRInfinite from 'swr/infinite';
 import React, { useEffect } from "react";
 import { useInView } from 'react-intersection-observer';
 
+
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 // const OFFSET_CONSTANT = 15;
@@ -80,6 +81,7 @@ const Card = ({imData}:{imData: any}) => {
     //     setSize(size+1);
     //     console.log(size, "x");
     //   }
+
     return (
     <div className="rounded-xl overflow-hidden" key={data.imageUrl}>
       <ImageCard 
@@ -107,6 +109,7 @@ const { data, size, setSize } = useSWRInfinite<any>(
 // console.log(size);
 // console.log(size, "y");
 
+
 if(!data)
   return <p> Loading</p>
 
@@ -118,6 +121,7 @@ for(let i=0; i<data.length; i++) {
 function handleRef(node: HTMLElement | null) {
   inViewRef(node);
 }
+
   return(
     <Layout>
     <style jsx>{`
@@ -137,11 +141,13 @@ function handleRef(node: HTMLElement | null) {
           
           <ImageListItem key={index}>
             <div className="rounded-xl overflow-hidden" key={item.imageUrl} ref={index%7 === 0? handleRef : null}> 
+
                 <Card 
                   imData={item}
                 />
             </div>
             {/* <ImageListItemBar position="below" title={index} />  */}
+
           </ImageListItem>
         ))}
       </ImageList>
