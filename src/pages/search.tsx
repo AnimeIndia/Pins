@@ -9,25 +9,14 @@ import axios from "axios";
 import { RANKING } from '../utils/ranking';
 import { supabase } from '../utils/supabaseClient'
 import { useWindowSize } from "@react-hook/window-size";
-import {
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import {
-  useMasonry,
-  usePositioner,
-  useScroller,
-  useContainerPosition,
-  useResizeObserver
-} from "masonic";
-
+import { useRecoilState, useRecoilValue} from 'recoil';
+import { useMasonry, usePositioner, useScroller, useContainerPosition, useResizeObserver } from "masonic";
 import { pixivModeState, pixivOffsetState, isInitialRunState, pixivDateState } from "../shared/globalState";
 import { useRef } from "react";
 import { RankBarMui } from '../components/rankBarMui';
 import { NavbarMui } from '../components/navbarMui';
 
 // const fetcher = (url: any) => fetch(url).then((res) => res.json())
-
 const OFFSET_CONSTANT = 15;
 const OFFSET_START = 0;
 const MODE_DEFAULT = 'day'
@@ -35,6 +24,7 @@ const MODE_DEFAULT = 'day'
 export const getServerSideProps: GetServerSideProps = async () => {
   // const mode = useRecoilValue(pixivModeState);
   const options = {offset: OFFSET_START, mode: MODE_DEFAULT}
+
   const curDate = new Date();  
   const date_offset = curDate.toISOString().slice(0,10) + '_' + options.offset;
 
@@ -74,7 +64,6 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   const mode = useRecoilValue(pixivModeState);
   const [offsety, setOffsety] = useRecoilState(pixivOffsetState);
   // const [offsetx, setOffsetx] = useState(0);
-
   const pixivDate = useRecoilValue(pixivDateState);
 
   const [imagesData, setImagesData] =  useState(data.imagesData);
@@ -105,6 +94,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
       const uniqueItems = allItems.filter(({imageUrl}, index) => !allImageUrls.includes(imageUrl, index + 1));
       return uniqueItems;
     });
+
     
   }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
@@ -114,6 +104,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   })
 
   const debouncedCallback = useDebounceCallback(maybeLoadMore, 300);
+
 
   const Card = ({data:{imageUrl, title, author, width, height}, width: widthCell}
       :{
@@ -209,6 +200,7 @@ return(
             </img>
         </div>
         </div>
+
 
       </div>
     </Main>

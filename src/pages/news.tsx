@@ -1,8 +1,10 @@
-import Head from "next/head";
 import { GetServerSideProps } from "next";
 import React from "react";
 import { NewsCard } from '../components/card/newsCard';
-import { Navbar } from '../components/navbar';
+import { NavbarMui } from "../components/navbarMui";
+import { Footer } from "../components/footer";
+import { Main } from "../templates/Main";
+import { Meta } from "../layout/Meta";
 
 
 const axios = require("axios");
@@ -42,28 +44,33 @@ export const getServerSideProps: GetServerSideProps = async () => {
 export default function News({ newsTitles }: {newsTitles:any}) {
   // console.log(newsTitles);
   return (
-    <div>
-      <Head>
-        <title>AniPins News</title>
-        <meta name="description" content="News" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Navbar />
-      <main className="bg-blue-200">
-        <div className="flex flex-wrap flex-col items-center gap-5">
-            {newsTitles.map((item:any, key:any) => (
-              <NewsCard
-                  key={key}
-                  title={item.h2}
-                  subtitle={item.h3}
-                  author={item.author}
-                  newsUrl={item.newsUrl}
-                />
-            ))}
-        </div>
-      </main>
+    <Main
+      meta={
+        <Meta
+          title="Anime News"
+          description="News related to Anime"
+        />
+      }
+    >
 
-      <footer>A footer</footer>
-    </div>
+    <NavbarMui />
+      
+    <main className="bg-blue-200">
+      <div className="flex flex-wrap flex-col items-center gap-5">
+          {newsTitles.map((item:any, key:any) => (
+            <NewsCard
+                key={key}
+                title={item.h2}
+                subtitle={item.h3}
+                author={item.author}
+                newsUrl={item.newsUrl}
+              />
+          ))}
+      </div>
+    </main>
+
+    <Footer />
+
+  </Main>
   );
 }
