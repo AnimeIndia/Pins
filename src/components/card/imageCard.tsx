@@ -30,8 +30,8 @@ type ImageProps = {
 const ImageCard = (props: ImageProps) => {
 
   return (
-  <div className="cursor-pointer bg-gray-600" style={{height: props.height}} onClick={() => window.open(props.imageUrl, "_blank")}>
-    <Image className="rounded" 
+  <div className="relative cursor-pointer bg-gray-600" style={{height: props.height}} onClick={() => window.open(props.imageUrl, "_blank")}>
+    <Image className="rounded bg-blend-overlay hover:opacity-80" 
       src={props.imageUrl} 
       alt="" 
       // layout="responsive"
@@ -43,9 +43,9 @@ const ImageCard = (props: ImageProps) => {
       // blurDataURL={`${router.basePath}/loading.gif`}
       width={props.width}
       height={props.height} />
-    <div className="overlay absolute bottom-0 w-full h-24 px-4 pt-6">
-      <div className="text-white text-lg">{props.title}</div>
-      <div className="text-gray-400 text-sm">{props.author}</div>
+    <div className="transform overlay absolute z-10 font-semibold bottom-0 w-full h-14 px-4 bg-black opacity-40 hover:opacity-50">
+      <div className="text-white text-lg truncate">{props.title}</div>
+      <div className="text-white text-sm truncate">{props.author}</div>
     </div>
   </div>
   );

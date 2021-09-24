@@ -9,25 +9,14 @@ import axios from "axios";
 import { RANKING } from '../utils/ranking';
 import { supabase } from '../utils/supabaseClient'
 import { useWindowSize } from "@react-hook/window-size";
-import {
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import {
-  useMasonry,
-  usePositioner,
-  useScroller,
-  useContainerPosition,
-  useResizeObserver
-} from "masonic";
-
+import { useRecoilState, useRecoilValue} from 'recoil';
+import { useMasonry, usePositioner, useScroller, useContainerPosition, useResizeObserver } from "masonic";
 import { pixivModeState, pixivOffsetState, isInitialRunState, pixivDateState } from "../shared/globalState";
 import { useRef } from "react";
 import { RankBarMui } from '../components/rankBarMui';
 import { NavbarMui } from '../components/navbarMui';
 
 // const fetcher = (url: any) => fetch(url).then((res) => res.json())
-
 const OFFSET_CONSTANT = 15;
 const OFFSET_START = 0;
 const MODE_DEFAULT = 'day'

@@ -32,7 +32,7 @@ const handler = async (_: NextApiRequest, res: NextApiResponse) => {
   const curDate = new Date();
   curDate.setDate(curDate.getDate() - DATE_OFFSET);
   
-  const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'day'});
+  const illustIds = await pixiv.illustRanking({date: curDate.toISOString().slice(0,10), mode: 'week'});
   const randomIllustID = illustIds.illusts[Math.floor((Math.random()*100000) % illustIds.illusts.length)]
   const randomIllustImageUrl = randomIllustID.image_urls.large;
 

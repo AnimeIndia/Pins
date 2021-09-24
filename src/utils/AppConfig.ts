@@ -3,7 +3,8 @@ export const AppConfig = {
   title: 'Pins.Moe',
   description: 'Pins.Moe',
   locale: 'en',
-  headerLine: 'Arts, News, Reviews & Much More',
+  headerLine: 'Welcome to AniPins \
+  Arts, News, Reviews & Much More',
   pixivImagePrefix: 'i.pximg.net',
   reverseProxyPrefix: 'i.anipins.moe'
 };
