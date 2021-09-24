@@ -74,6 +74,7 @@ export default function rank({data}: InferGetServerSidePropsType<typeof getServe
   const mode = useRecoilValue(pixivModeState);
   const [offsety, setOffsety] = useRecoilState(pixivOffsetState);
   // const [offsetx, setOffsetx] = useState(0);
+
   const pixivDate = useRecoilValue(pixivDateState);
 
   const [imagesData, setImagesData] =  useState(data.imagesData);
