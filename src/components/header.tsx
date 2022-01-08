@@ -20,8 +20,9 @@ const Header = ({randomImageUrl} : InferGetServerSidePropsType<GetServerSideProp
   }, []);
 
   return (
-    <header style = {{backgroundImage: `url(${randomIllustImageUrl})`}} className="relative bg-no-repeat bg-fixed bg-cover lg:bg-center p-6 min-h-screen">
-
+    
+    <header style = {{backgroundImage: `url(${randomIllustImageUrl})`}} className="relative bg-no-repeat bg-fixed bg-cover lg:bg-center min-h-screen">
+{/* <header style = {{backgroundImage: `url("https://i.anipins.moe/img-master/img/2015/03/15/01/01/48/49281286_p0_master1200.jpg")`}} className="relative bg-no-repeat bg-fixed bg-cover lg:bg-center min-h-screen"> */}
         <Navbar wrapperSetRandomIllustImageUrl = {wrapperSetRandomIllustImageUrl}/>
         
         <div className="max-w-5xl mx-auto items-center pt-80 lg:py-32 ">
